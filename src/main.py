@@ -3,6 +3,7 @@ import pandas as pd
 import datetime as dt
 from dotenv import load_dotenv
 import os
+import s3fs
 
 
 
@@ -17,6 +18,11 @@ print(day_before)
 
 
 print('test box office api')
+
+
+def get_previous_date(days: int = 1) -> str:
+        """Get the date for n days before today."""
+        return (dt.datetime.now() - dt.timedelta(days=days)).strftime('%Y-%m-%d')
 
 
 def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
@@ -68,3 +74,14 @@ df = retrieve_dataframe_cinema_check_it(day_before)
 
 
 
+def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
+        """Save DataFrame to S3 as CSV."""
+        try:
+            fs = s3fs.S3FileSystem()
+            with fs.open(s3_path, 'w') as f:
+                df.to_csv(f, index=False)
+            print(f'DataFrame successfully saved to {s3_path}')
+            return True
+        except Exception as e:
+            print(f"Error saving to S3: {str(e)}")
+            return False
