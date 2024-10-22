@@ -7,41 +7,34 @@ import s3fs
 
 
 
-
-# Get the date of the day before
-
-day_before = (dt.datetime.now() - dt.timedelta(days=1)).strftime('%Y-%m-%d')
-
-
-
-print(day_before)
-
-
-print('test box office api')
-
-
-def get_previous_date(days: int = 1) -> str:
+# defined the date for the retrieving date
+def get_previous_date(days: int = 2) -> str:
         """Get the date for n days before today."""
         return (dt.datetime.now() - dt.timedelta(days=days)).strftime('%Y-%m-%d')
 
+
+# retrieve the dataframe from the cinema API and check if the columns are the same
 
 def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
 
     load_dotenv()  # Load environment variables from .env file
     try:
         os.getenv('cinema_key')
+        print('API key found')
     except:
         print('no API key found')
     
     try :
 
-        box_office = BoxOffice(api_key=os.getenv('cinema_key'), outputformat="DF") # Get daily box office information for a specific date 
+        box_office = BoxOffice(api_key=os.getenv('cinema_key'), outputformat="DF") # Get daily box office information for a specific date
 
     except:
         print('can t access to the box office please check your API key')
 
 
-    test_df = box_office.get_daily(date)
+    test_df = box_office.get_daily(date = date)
+
+    print(test_df)
 
 
     list_columns = ['TD', 'YD', 'Release', 'Daily', '%± YD', '%± LW', 'Theaters', 'Avg',
@@ -70,10 +63,11 @@ def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
 
     return test_df
 
-df = retrieve_dataframe_cinema_check_it(day_before)
+df = retrieve_dataframe_cinema_check_it(get_previous_date())
 
 
 
+# load to S3
 def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
         """Save DataFrame to S3 as CSV."""
         try:
