@@ -63,7 +63,7 @@ def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
 
     return test_df
 
-df = retrieve_dataframe_cinema_check_it(get_previous_date())
+df_cinema = retrieve_dataframe_cinema_check_it(get_previous_date())
 
 
 
@@ -79,3 +79,7 @@ def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
         except Exception as e:
             print(f"Error saving to S3: {str(e)}")
             return False
+
+
+# save the csv file into the S3 bucket cinema-freq
+save_to_s3(df_cinema, f's3://cinema-freq/box_office_{get_previous_date()}.csv')
