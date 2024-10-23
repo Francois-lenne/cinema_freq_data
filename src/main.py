@@ -82,4 +82,4 @@ def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
 
 
 # save the csv file into the S3 bucket cinema-freq
-save_to_s3(df_cinema, f's3://cinema-freq/box_office_{get_previous_date()}.csv')
+save_to_s3(df_cinema, f's3://cinemafreq/box_office_{get_previous_date()}.csv')
