@@ -103,6 +103,3 @@ def lambda_handler(event,context):
             'body': json.dumps(f'Error: {str(e)}')
         }
 
-
-if __name__ == '__main__':
-    lambda_handler()
