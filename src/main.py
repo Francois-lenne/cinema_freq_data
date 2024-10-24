@@ -81,7 +81,7 @@ def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
         print(f"Error saving to S3: {str(e)}")
         return False
 
-def lambda_handler():
+def lambda_handler(event,context):
     """AWS Lambda handler function."""
     try:
         df = retrieve_dataframe_cinema_check_it(get_previous_date())

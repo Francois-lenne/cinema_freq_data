@@ -1,3 +1,4 @@
 cinema/
 .env
 .venv/
+*.zip
