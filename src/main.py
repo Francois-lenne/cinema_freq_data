@@ -1,41 +1,51 @@
+# lambda_function.py
 from boxoffice_api import BoxOffice 
 import pandas as pd
 import datetime as dt
-from dotenv import load_dotenv
-import os
+import json
 import s3fs
+import boto3
+from botocore.exceptions import ClientError
 
+def get_secret(secret_name):
+    """Retrieve secret from AWS Secrets Manager."""
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager'
+    )
+    try:
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_name
+        )
+    except ClientError as e:
+        raise e
+    else:
+        if 'SecretString' in get_secret_value_response:
+            return json.loads(get_secret_value_response['SecretString'])
 
-
-# defined the date for the retrieving date
 def get_previous_date(days: int = 2) -> str:
-        """Get the date for n days before today."""
-        return (dt.datetime.now() - dt.timedelta(days=days)).strftime('%Y-%m-%d')
-
-
-# retrieve the dataframe from the cinema API and check if the columns are the same
+    """Get the date for n days before today."""
+    return (dt.datetime.now() - dt.timedelta(days=days)).strftime('%Y-%m-%d')
 
 def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
-
-    load_dotenv()  # Load environment variables from .env file
+    """Retrieve cinema data and perform column checks."""
     try:
-        os.getenv('cinema_key')
-        print('API key found')
-    except:
-        print('no API key found')
+        # Get API key from Secrets Manager
+        secrets = get_secret('cinema_key')
+        api_key = secrets['cinema_key']
+        print('API key retrieved from Secrets Manager')
+    except Exception as e:
+        print(f'Error retrieving API key: {str(e)}')
+        raise
     
-    try :
+    try:
+        box_office = BoxOffice(api_key=api_key, outputformat="DF")
+    except Exception as e:
+        print(f'Cannot access box office: {str(e)}')
+        raise
 
-        box_office = BoxOffice(api_key=os.getenv('cinema_key'), outputformat="DF") # Get daily box office information for a specific date
-
-    except:
-        print('can t access to the box office please check your API key')
-
-
-    test_df = box_office.get_daily(date = date)
-
+    test_df = box_office.get_daily(date=date)
     print(test_df)
-
 
     list_columns = ['TD', 'YD', 'Release', 'Daily', '%± YD', '%± LW', 'Theaters', 'Avg',
         'To Date', 'Days', 'Distributor', 'Title', 'Year', 'Rated', 'Released',
@@ -46,40 +56,53 @@ def retrieve_dataframe_cinema_check_it(date:str) -> pd.DataFrame:
 
     column_list = test_df.columns.tolist()
 
-
-
     if list_columns == column_list:
         print('columns corresponds')
-
-    else :
+    else:
         print('not corresponding')
-
     
     test_df.rename(columns={
         '%± YD': 'ev_YD',
         '%± LW': 'ev_LW',
-        'To Date' : 'to_date'
+        'To Date': 'to_date'
     }, inplace=True)
 
     return test_df
 
-df_cinema = retrieve_dataframe_cinema_check_it(get_previous_date())
-
-
-
-# load to S3
 def save_to_s3(df: pd.DataFrame, s3_path: str) -> bool:
-        """Save DataFrame to S3 as CSV."""
-        try:
-            fs = s3fs.S3FileSystem()
-            with fs.open(s3_path, 'w') as f:
-                df.to_csv(f, index=False)
-            print(f'DataFrame successfully saved to {s3_path}')
-            return True
-        except Exception as e:
-            print(f"Error saving to S3: {str(e)}")
-            return False
+    """Save DataFrame to S3 as CSV."""
+    try:
+        fs = s3fs.S3FileSystem()
+        with fs.open(s3_path, 'w') as f:
+            df.to_csv(f, index=False)
+        print(f'DataFrame successfully saved to {s3_path}')
+        return True
+    except Exception as e:
+        print(f"Error saving to S3: {str(e)}")
+        return False
+
+def lambda_handler():
+    """AWS Lambda handler function."""
+    try:
+        df = retrieve_dataframe_cinema_check_it(get_previous_date())
+        success = save_to_s3(df, f's3://cinemafreq/box_office_{get_previous_date()}.csv')
+        
+        if success:
+            return {
+                'statusCode': 200,
+                'body': json.dumps('Successfully processed cinema data')
+            }
+        else:
+            return {
+                'statusCode': 500,
+                'body': json.dumps('Failed to save data to S3')
+            }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'body': json.dumps(f'Error: {str(e)}')
+        }
 
 
-# save the csv file into the S3 bucket cinema-freq
-save_to_s3(df_cinema, f's3://cinemafreq/box_office_{get_previous_date()}.csv')
+if __name__ == '__main__':
+    lambda_handler()
