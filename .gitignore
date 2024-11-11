@@ -2,3 +2,4 @@ cinema/
 .env
 .venv/
 *.zip
+*.json
