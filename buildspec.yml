@@ -3,24 +3,24 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Connexion à Amazon ECR...
+      - echo "Connexion à Amazon ECR..."
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 267336880231.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=267336880231.dkr.ecr.us-east-1.amazonaws.com/lambdacinema
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
   
   build:
     commands:
-      - echo Construction de l'image Docker...
+      - echo "Construction de l'image Docker..."
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   
   post_build:
     commands:
-      - echo Build terminé le `date`
-      - echo Push des images vers ECR...
+      - echo "Build terminé le $(date)"
+      - echo "Push des images vers ECR..."
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Mise à jour de la fonction Lambda...
+      - echo "Mise à jour de la fonction Lambda..."
       - aws lambda update-function-code --function-name Lambdacinema --image-uri $REPOSITORY_URI:latest
       - echo "Création de l'artifact imageDetail.json..."
       - printf '{"ImageURI":"%s"}' $REPOSITORY_URI:$IMAGE_TAG > imageDetail.json
