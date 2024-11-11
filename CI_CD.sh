@@ -65,3 +65,28 @@ aws cloudwatch put-metric-alarm \
     --threshold 1 \
     --comparison-operator GreaterThanThreshold \
     --region ${AWS_REGION}
+
+
+# configur le déclenchement du build
+
+
+# 1. Créer un Personal Access Token (PAT) sur GitHub
+# Allez sur GitHub > Settings > Developer settings > Personal access tokens > Generate new token
+
+# 2. Configurer la source GitHub dans CodeBuild
+
+
+# Créer le déclencheur
+aws codebuild create-webhook \
+    --project-name "${PROJECT_NAME}-build" \
+    --filter-groups '[[
+        {
+            "type": "EVENT",
+            "pattern": "PUSH"
+        },
+        {
+            "type": "HEAD_REF",
+            "pattern": "^refs/heads/main$"
+        }
+    ]]' \
+    --region ${AWS_REGION}
