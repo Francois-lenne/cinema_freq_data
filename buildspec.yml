@@ -1,14 +1,6 @@
 version: 0.2
 
 
-# Ajouter la configuration du déclencheur
-triggers:
-  webhook: true
-  filter-groups:
-    - type: EVENT
-      pattern: PUSH
-      head-ref: ^refs/heads/main$
-
 phases:
   pre_build:
     commands:
