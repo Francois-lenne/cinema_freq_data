@@ -85,6 +85,9 @@ def lambda_handler(event,context):
     """AWS Lambda handler function."""
     try:
         df = retrieve_dataframe_cinema_check_it(get_previous_date())
+        s3_path = f's3://cinemafreq/box_office_{get_previous_date()}.csv'
+        df['path'] = s3_path
+        df['timestamp'] = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         success = save_to_s3(df, f's3://cinemafreq/box_office_{get_previous_date()}.csv')
         
         if success:
