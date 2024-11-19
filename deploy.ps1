@@ -59,7 +59,7 @@ Get-ChildItem -Recurse -Directory "$DEPLOYMENT_DIR" -Include "__pycache__", "*.d
 # Create ZIP file
 Write-Host "Creating deployment package..."
 Set-Location -Path $DEPLOYMENT_DIR
-Compress-Archive -Path . -DestinationPath "$PROJECT_ROOT\lambda_deployment.zip"
+Compress-Archive -Path . -DestinationPath "$PROJECT_ROOT\lambda_deployment.zip" -Force
 Set-Location -Path $PROJECT_ROOT
 
 
