@@ -43,7 +43,10 @@ CREATE EXTERNAL TABLE IF NOT EXISTS bronze_cinema_ (
     BoxOffice string,
     Production string,
     Website string,
-    Response string
+    Response string,
+    path STRING, 
+    timestamp STRING
+    
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
