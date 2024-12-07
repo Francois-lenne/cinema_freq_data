@@ -3,3 +3,4 @@ cinema/
 .venv/
 *.zip
 *.json
+dbt_projects/dbt/*

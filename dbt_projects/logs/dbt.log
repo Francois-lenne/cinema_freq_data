@@ -1,0 +1,105 @@
+[0m00:21:16.907445 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1076866f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x105dcacf0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107a4ef90>]}
+
+
+============================== 00:21:16.910226 | a10ee3a2-40c7-49c7-99f9-5bd7149b9de9 ==============================
+[0m00:21:16.910226 [info ] [MainThread]: Running with dbt=1.8.9
+[0m00:21:16.910560 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'warn_error': 'None', 'fail_fast': 'False', 'profiles_dir': '/Users/francoislenne/.dbt', 'log_path': 'logs', 'version_check': 'True', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'introspect': 'True', 'static_parser': 'True', 'invocation_command': 'dbt init dbt_cinema', 'target_path': 'None', 'log_format': 'default', 'send_anonymous_usage_stats': 'True'}
+[0m00:21:16.917737 [debug] [MainThread]: Starter project path: /Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/include/starter_project
+[0m00:21:16.921793 [info ] [MainThread]: 
+Your new dbt project "dbt_cinema" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m00:21:16.922044 [info ] [MainThread]: Setting up your profile.
+[0m00:21:18.917274 [error] [MainThread]: Encountered an error:
+cannot import name 'Credentials' from 'dbt.adapters.base' (/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/base/__init__.py)
+[0m00:21:18.919949 [error] [MainThread]: Traceback (most recent call last):
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/cli/requires.py", line 138, in wrapper
+    result, success = func(*args, **kwargs)
+                      ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/cli/requires.py", line 101, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/cli/main.py", line 470, in init
+    results = task.run()
+              ^^^^^^^^^^
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/task/init.py", line 347, in run
+    self.setup_profile(profile_name)
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/task/init.py", line 263, in setup_profile
+    self.create_profile_from_target(adapter, profile_name=profile_name)
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/task/init.py", line 173, in create_profile_from_target
+    load_plugin(adapter)
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/factory.py", line 239, in load_plugin
+    return FACTORY.load_plugin(name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/factory.py", line 68, in load_plugin
+    mod: Any = import_module("." + name, "dbt.adapters")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.7_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/athena/__init__.py", line 1, in <module>
+    from dbt.adapters.athena.connections import AthenaConnectionManager
+  File "/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/athena/connections.py", line 19, in <module>
+    from dbt.adapters.base import Credentials
+ImportError: cannot import name 'Credentials' from 'dbt.adapters.base' (/Users/francoislenne/cinema_freq_data/dbt_projects/dbt/lib/python3.12/site-packages/dbt/adapters/base/__init__.py)
+
+[0m00:21:18.921474 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 2.0491247, "process_in_blocks": "0", "process_kernel_time": 0.123278, "process_mem_max_rss": "101007360", "process_out_blocks": "0", "process_user_time": 0.632752}
+[0m00:21:18.921762 [debug] [MainThread]: Command `dbt init` failed at 00:21:18.921716 after 2.05 seconds
+[0m00:21:18.921954 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107a4ef30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107b2f170>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107fcfb00>]}
+[0m00:21:18.922154 [debug] [MainThread]: Flushing usage events
+[0m00:22:02.449709 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x106049a00>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1081d7650>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1081d70b0>]}
+
+
+============================== 00:22:02.452562 | d73534f7-70fe-446c-b2ef-dd808fa3d320 ==============================
+[0m00:22:02.452562 [info ] [MainThread]: Running with dbt=1.8.9
+[0m00:22:02.452889 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'write_json': 'True', 'log_cache_events': 'False', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/francoislenne/.dbt', 'version_check': 'True', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'fail_fast': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'None', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt debug', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m00:22:02.460170 [info ] [MainThread]: dbt version: 1.8.9
+[0m00:22:02.460648 [info ] [MainThread]: python version: 3.12.7
+[0m00:22:02.460925 [info ] [MainThread]: python path: /Users/francoislenne/cinema_freq_data/dbt_projects/dbt/bin/python3.12
+[0m00:22:02.461096 [info ] [MainThread]: os info: macOS-15.1.1-arm64-arm-64bit
+[0m00:22:02.461281 [info ] [MainThread]: Using profiles dir at /Users/francoislenne/.dbt
+[0m00:22:02.461429 [info ] [MainThread]: Using profiles.yml file at /Users/francoislenne/.dbt/profiles.yml
+[0m00:22:02.461567 [info ] [MainThread]: Using dbt_project.yml file at /Users/francoislenne/cinema_freq_data/dbt_projects/dbt_project.yml
+[0m00:22:02.461710 [info ] [MainThread]: Configuration:
+[0m00:22:02.461846 [info ] [MainThread]:   profiles.yml file [[31mERROR not found[0m]
+[0m00:22:02.461981 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m00:22:02.462139 [info ] [MainThread]: Required dependencies:
+[0m00:22:02.462323 [debug] [MainThread]: Executing "git --help"
+[0m00:22:02.479779 [debug] [MainThread]: STDOUT: "b"usage : git [-v | --version] [-h | --help] [-C <chemin>] [-c <nom>=<valeur>]\n           [--exec-path[=<chemin>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<chemin>] [--work-tree=<chemin>] [--namespace=<nom>]\n           [--config-env=<nom>=<variable-d-environnement>] <commande> [<args>]\n\nCi-dessous les commandes Git habituelles dans diverses situations\xc2\xa0:\n\nd\xc3\xa9marrer une zone de travail (voir aussi\xc2\xa0: git help tutorial)\n   clone     Cloner un d\xc3\xa9p\xc3\xb4t dans un nouveau r\xc3\xa9pertoire\n   init      Cr\xc3\xa9er un d\xc3\xa9p\xc3\xb4t Git vide ou r\xc3\xa9initialiser un existant\n\ntravailler sur la modification actuelle (voir aussi\xc2\xa0: git help revisions)\n   add       Ajouter le contenu de fichiers dans l'index\n   mv        D\xc3\xa9placer ou renommer un fichier, un r\xc3\xa9pertoire, ou un lien symbolique\n   restore   Restaurer les fichiers l'arbre de travail\n   rm        Supprimer des fichiers de la copie de travail et de l'index\n\nexaminer l'historique et l'\xc3\xa9tat (voir aussi\xc2\xa0: git help revisions)\n   bisect    Trouver par recherche binaire la modification qui a introduit un bogue\n   diff      Afficher les changements entre les validations, entre validation et copie de travail, etc\n   grep      Afficher les lignes correspondant \xc3\xa0 un motif\n   log       Afficher l'historique des validations\n   show      Afficher diff\xc3\xa9rents types d'objets\n   status    Afficher l'\xc3\xa9tat de la copie de travail\n\nagrandir, marquer et modifier votre historique\n   branch    Lister, cr\xc3\xa9er ou supprimer des branches\n   commit    Enregistrer les modifications dans le d\xc3\xa9p\xc3\xb4t\n   merge     Fusionner deux ou plusieurs historiques de d\xc3\xa9veloppement ensemble\n   rebase    R\xc3\xa9application des commits sur le sommet de l'autre base\n   reset     R\xc3\xa9initialiser la HEAD courante \xc3\xa0 l'\xc3\xa9tat sp\xc3\xa9cifi\xc3\xa9\n   switch    Basculer de branche\n   tag       Cr\xc3\xa9er, lister, supprimer ou v\xc3\xa9rifier un objet d'\xc3\xa9tiquette sign\xc3\xa9 avec GPG\n\ncollaborer (voir aussi\xc2\xa0: git help workflows)\n   fetch     T\xc3\xa9l\xc3\xa9charger les objets et r\xc3\xa9f\xc3\xa9rences depuis un autre d\xc3\xa9p\xc3\xb4t\n   pull      Rapatrier et int\xc3\xa9grer un autre d\xc3\xa9p\xc3\xb4t ou une branche locale\n   push      Mettre \xc3\xa0 jour les r\xc3\xa9f\xc3\xa9rences distantes ainsi que les objets associ\xc3\xa9s\n\n'git help -a' et 'git help -g' listent les sous-commandes disponibles et\nquelques concepts. Voir 'git help <commande>' ou 'git help <concept>'\npour en lire plus \xc3\xa0 propos d'une commande sp\xc3\xa9cifique ou d'un concept.\nVoir 'git help git' pour un survol du syst\xc3\xa8me.\n""
+[0m00:22:02.480280 [debug] [MainThread]: STDERR: "b''"
+[0m00:22:02.480467 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m00:22:02.480651 [info ] [MainThread]: Connection test skipped since no profile was found
+[0m00:22:02.480895 [info ] [MainThread]: [31m2 checks failed:[0m
+[0m00:22:02.481050 [info ] [MainThread]: dbt looked for a profiles.yml file in /Users/francoislenne/.dbt/profiles.yml, but did
+not find one. For more information on configuring your profile, consult the
+documentation:
+
+https://docs.getdbt.com/docs/configure-your-profile
+
+
+[0m00:22:02.481204 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </Users/francoislenne/cinema_freq_data/dbt_projects/dbt_project.yml> not found
+
+[0m00:22:02.482820 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 0.065476, "process_in_blocks": "0", "process_kernel_time": 0.113106, "process_mem_max_rss": "93962240", "process_out_blocks": "0", "process_user_time": 0.573822}
+[0m00:22:02.483284 [debug] [MainThread]: Command `dbt debug` failed at 00:22:02.483226 after 0.07 seconds
+[0m00:22:02.483541 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x107ba08f0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108205010>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10594b410>]}
+[0m00:22:02.483774 [debug] [MainThread]: Flushing usage events
